@@ -3,44 +3,42 @@ import request from '@/utils/request'
 export default {
   getList(params) {
     return request({
-      url: '/serviceedu/edu-teacher/findAll',
+      url: '/eduservice/edu-teacher/findAll',
       method: 'get',
       params
     })
   },
   getPageList(page, limit, teacherQuery) {
     return request({
-      url: `/serviceedu/edu-teacher/pageTeacherCondition/${page}/${limit}`,
+      url: `/eduservice/edu-teacher/pageTeacherCondition/${page}/${limit}`,
       method: 'post',
       data: teacherQuery
     })
   },
   removeDataById(id) {
     return request({
-      url: `/serviceedu/edu-teacher/${id}`,
+      url: `/eduservice/edu-teacher/${id}`,
       method: 'delete'
     })
   },
-  addData(teacher){
+  addData(teacher) {
     return request({
-      url: `/serviceedu/edu-teacher/addTeacher`,
+      url: `/eduservice/edu-teacher/addTeacher`,
       method: 'post',
       data: teacher
     })
   },
-  getData(id){
+  getData(id) {
     return request({
-      url: `/serviceedu/edu-teacher/getTeacher/${id}`,
-      method: 'get',
+      url: `/eduservice/edu-teacher/getTeacher/${id}`,
+      method: 'get'
     })
   },
-  updateData(teacher){
+  updateData(teacher) {
     return request({
-      url: `/serviceedu/edu-teacher/updateTeacher`,
+      url: `/eduservice/edu-teacher/updateTeacher`,
       method: 'post',
       data: teacher
     })
-  },
-
-
+  }
 }

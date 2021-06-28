@@ -46,7 +46,7 @@ export default {
     }
   },
   created() {
-    if(this.$route.params && this.$route.params.id) {
+    if (this.$route.params && this.$route.params.id) {
       const id = this.$route.params.id
       this.getTeacher(id)
     }
@@ -66,10 +66,10 @@ export default {
   // },
   methods: {
     saveOrUpdate() {
-      if(!this.teacher.id) {
-        this.addTeacher();
-      }else{
-        this.updateTeacher();
+      if (!this.teacher.id) {
+        this.addTeacher()
+      } else {
+        this.updateTeacher()
       }
     },
     getTeacher(id) {
@@ -78,28 +78,28 @@ export default {
           message: '获取讲师成功',
           type: 'success'
         })
-        this.teacher=response.data.teacher
+        this.teacher = response.data.teacher
       }).catch(error => console.log(error))
     },
     addTeacher() {
-      this.saveBtnDisabled=true
+      this.saveBtnDisabled = true
       teacherApi.addData(this.teacher).then(response => {
         this.$message({
           message: '新增成功',
           type: 'success'
         })
-        this.$router.push("/teacher/list");
-      }).catch(error => console.log(error)).finally(() => {this.saveBtnDisabled=false})
+        this.$router.push('/teacher/list')
+      }).catch(error => console.log(error)).finally(() => { this.saveBtnDisabled = false })
     },
     updateTeacher() {
-      this.saveBtnDisabled=true
+      this.saveBtnDisabled = true
       teacherApi.updateData(this.teacher).then(response => {
         this.$message({
           message: '编辑成功',
           type: 'success'
         })
-        this.$router.push("/teacher/list");
-      }).catch(error => console.log(error)).finally(() => {this.saveBtnDisabled=false})
+        this.$router.push('/teacher/list')
+      }).catch(error => console.log(error)).finally(() => { this.saveBtnDisabled = false })
     }
   }
 }
