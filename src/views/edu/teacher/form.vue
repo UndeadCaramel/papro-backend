@@ -8,7 +8,7 @@
       </el-form-item>
       <el-form-item label="讲师排序">
         <el-col :span="5">
-        <el-input-number v-model="teacher.sort" controls-position="right" min='0'/>
+          <el-input-number v-model="teacher.sort" controls-position="right" min="0" />
         </el-col>
       </el-form-item>
       <el-form-item label="讲师头衔">
@@ -19,13 +19,20 @@
       </el-form-item>
       <el-form-item label="讲师资历">
         <el-col :span="5">
-        <el-input v-model="teacher.career" />
+          <el-input v-model="teacher.career" />
         </el-col>
       </el-form-item>
       <el-form-item label="讲师简历">
         <el-col :span="11">
-        <el-input v-model="teacher.intro" :rows="10" type="textarea" />
+          <el-input v-model="teacher.intro" :rows="10" type="textarea" />
         </el-col>
+      </el-form-item>
+      <el-form-item label="讲师头像">
+        <pan-thumb :image="teacher.avatar" />
+        <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">
+          更换头像
+        </el-button>
+        <image-cropper v-show="imagecropperShow" :width="300" :height="300" :ki="imagecropperKey" :url="BASE_API+'/eduoss/uploadAvatar'" field="file" @close="close" @crop-upload-success="cropSuccess" />
       </el-form-item>
       <el-form-item>
         <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate">保存</el-button>
@@ -36,13 +43,28 @@
 </template>
 <script>
 import teacherApi from '@/api/teacher'
+import ImageCropper from '@/components/ImageCropper'
+import PanThumb from '@/components/PanThumb'
+
 export default {
+  components: {
+    ImageCropper, PanThumb
+  },
   data() {
     return {
       teacher: {
-        sort: 0
+        name: '',
+        sort: 0,
+        level: 1,
+        career: '',
+        intro: '',
+        avatar: ''
       },
-      saveBtnDisabled: false
+      saveBtnDisabled: false,
+      // 上传弹框组件是否显示
+      imagecropperShow: false,
+      imagecropperKey: 0, // 上传组件key值
+      BASE_API: process.env.VUE_APP_BASE_API // 获取dev.env.js里面地址
     }
   },
   created() {
@@ -65,6 +87,15 @@ export default {
   //   }
   // },
   methods: {
+    close() {
+      this.imagecropperShow = false
+      this.imagecropperKey = this.imagecropperKey + 1
+    },
+    cropSuccess(data) {
+      this.imagecropperShow = false
+      this.teacher.avatar = data.url
+      this.imagecropperKey = this.imagecropperKey + 1
+    },
     saveOrUpdate() {
       if (!this.teacher.id) {
         this.addTeacher()

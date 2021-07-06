@@ -1,25 +1,25 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="teacherQuery" :inline="true">
-       <el-form-item label="讲师名称">
-            <el-input  v-model="teacherQuery.name" placeholder="讲师名称"></el-input>
+      <el-form-item label="讲师名称">
+        <el-input v-model="teacherQuery.name" placeholder="讲师名称" />
       </el-form-item>
       <el-form-item label="讲师职称">
-            <el-select v-model="teacherQuery.level" placeholder="讲师职称">
-              <el-option label="" value=""></el-option>
-              <el-option label="高级讲师" :value="1"></el-option>
-              <el-option label="首席讲师" :value="2"></el-option>
-            </el-select>
+        <el-select v-model="teacherQuery.level" placeholder="讲师职称">
+          <el-option label="" value="" />
+          <el-option label="高级讲师" :value="1" />
+          <el-option label="首席讲师" :value="2" />
+        </el-select>
       </el-form-item>
       <el-form-item label="开始时间">
-            <el-date-picker v-model="teacherQuery.begin" type="datetime" placeholder="开始时间"></el-date-picker>
+        <el-date-picker v-model="teacherQuery.begin" type="datetime" placeholder="开始时间" />
       </el-form-item>
       <el-form-item label="结束时间">
-        <el-date-picker v-model="teacherQuery.end" type="datetime" placeholder="结束时间"></el-date-picker>
+        <el-date-picker v-model="teacherQuery.end" type="datetime" placeholder="结束时间" />
       </el-form-item>
       <el-form-item>
-        <el-button @click="getList()" type="primary">查询</el-button>
-        <el-button @click="resetData()" type="default">清空</el-button>
+        <el-button type="primary" @click="getList()">查询</el-button>
+        <el-button type="default" @click="resetData()">清空</el-button>
       </el-form-item>
     </el-form>
 
@@ -69,12 +69,12 @@
           <router-link :to="'/teacher/edit/'+scope.row.id">
             <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
           </router-link>
-          <el-button type="danger" icon="el-icon-delete" @click="removeDataById(scope.row.id)" size="mini">删除</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeDataById(scope.row.id)" >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="text-align:center" >
-      <el-pagination :total="total" :current-page="current" :page-size="limit" @current-change="getList" layout="total, prev, pager, next, jumper" background></el-pagination>
+    <div class="block" style="text-align:center">
+      <el-pagination :total="total" :current-page="current" :page-size="limit" layout="total, prev, pager, next, jumper" background @current-change="getList" />
     </div>
   </div>
 </template>
@@ -121,7 +121,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }) .then(() => {
+      }).then(() => {
         teacher.removeDataById(id).then(response => {
           this.$message({
             message: '删除成功',
