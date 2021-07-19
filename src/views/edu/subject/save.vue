@@ -54,7 +54,9 @@ export default {
   },
   methods: {
     submitUpload() {
-      subject.addSubject(this.fileList[0])
+      subject.addSubject(this.fileList[0]).then(response => {
+        this.$router.push('/subject/list')
+      })
     },
     handleRemove(file, fileList) {
       console.log(file, fileList)

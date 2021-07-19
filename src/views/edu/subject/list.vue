@@ -3,8 +3,8 @@
     <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
 
     <el-tree
-      ref="tree2"
-      :data="data2"
+      ref="tree"
+      :data="subjects"
       :props="defaultProps"
       :filter-node-method="filterNode"
       class="filter-tree"
@@ -21,22 +21,30 @@ export default {
   data() {
     return {
       filterText: '',
-      data2: [],
+      subjects: [],
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'title'
       }
     }
   },
   watch: {
     filterText(val) {
-      this.$refs.tree2.filter(val)
+      this.$refs.tree.filter(val)
     }
   },
-
+  created() {
+    this.getSubjectList()
+  },
   methods: {
+    filterNode(value, data) {
+      if (!value) return true
+      return data.title.indexOf(value) !== -1
+    },
     getSubjectList() {
-      subject.getSubjectList(this.filterText)
+      subject.getSubjectList().then(response => {
+        this.subjects = response.data.list
+      }).catch(error => console.log(error))
     }
   }
 }
