@@ -5,7 +5,7 @@
         <el-tag type="info">excel模板说明</el-tag>
         <el-tag>
           <i class="el-icon-download" />
-          <a :href="'/static/excel_demo.xls'">点击下载模板</a>
+          <a :href="`${publicPath}excel_demo.xlsx`">点击下载模板</a>
         </el-tag>
       </el-form-item>
       <el-form-item label="选择Excel">
@@ -15,7 +15,7 @@
           :on-success="fileUploadSuccess"
           :on-error="fileUploadError"
           :disabled="importBtnDisabled"
-          limit="1"
+          :limit="1"
           :action="BASE_API+'/eduservice/edu-subject/addSubject'"
           name="file"
           accept="application/vnd.ms-excel"
@@ -29,7 +29,7 @@
             @click="submitUpload"
           >{{ fileUploadBtnText }}</el-button>
           <div slot="tip" class="el-upload__tip">
-            只能上传jpg/png文件，且不超过500kb
+            只能上传excel文件，且不超过500kb
           </div>
         </el-upload>
       </el-form-item>
@@ -38,12 +38,11 @@
 </template>
 
 <script>
-import subject from '@/api/subject'
-
 export default {
   data() {
     return {
       BASE_API: process.env.VUE_APP_BASE_API,
+      publicPath: process.env.BASE_URL,
       // OSS_API: process.env.OSS_PATH,
       fileUploadBtnText: '上传到服务器',
       importBtnDisabled: false,
@@ -51,18 +50,31 @@ export default {
     }
   },
   created() {
+    console.log(process.env.BASE_URL)
   },
   methods: {
     submitUpload() {
-      subject.addSubject(this.fileList[0]).then(response => {
-        this.$router.push('/subject/list')
+      this.importBtnDisabled = true
+      this.loading = true
+      this.$refs.upload.submit()
+    },
+    fileUploadSuccess(file, fileList) {
+      // 提示信息
+      this.loading = false
+      this.$message({
+        type: 'success',
+        message: '添加课程分类成功'
       })
+      // 跳转课程分类列表
+      // 路由跳转
+      this.$router.push({ path: '/subject/list' })
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
+    fileUploadError(file) {
+      this.loading = false
+      this.$message({
+        type: 'error',
+        message: '添加课程分类失败'
+      })
     }
   }
 }
