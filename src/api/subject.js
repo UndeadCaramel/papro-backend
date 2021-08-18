@@ -7,12 +7,5 @@ export default {
       method: 'get',
       params
     })
-  },
-  addSubject(file) {
-    return request({
-      url: '/eduservice/edu-subject/addSubject',
-      method: 'post',
-      data: file
-    })
   }
 }
